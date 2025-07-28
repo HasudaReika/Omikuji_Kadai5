@@ -1,25 +1,28 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
+
+<%@ taglib uri="http://struts.apache.org/tags-html" prefix="html" %>
+
 <!DOCTYPE html>
 <html>
 <head>
 <meta charset="UTF-8">
 <title>おみくじ占い</title>
-<link rel="stylesheet"
-	href="${pageContext.request.contextPath}/css/style.css">
+<link rel="stylesheet" href="${pageContext.request.contextPath}/css/style.css">
+
 </head>
 <body>
+	<div class="container">
 	<h1>おみくじ占い</h1>
-	<form action="/result" method="post">
+	<html:form action="/omikuji">
 	
-	<p class="error-msg">${errorMsg}</p>
-	
+	<html:errors/>
 		<p>
 			誕生日を入力してください 例:20011009<br>
-			 <input type="text" name="birthday"
-				required /><br> <input type="submit" value="送信" />
+			 <html:text property="birthday"/><br>
+			 <html:submit property="submit" value="送信"/>
 		</p>
-	</form>
+	</html:form>
 	</div>
 </body>
 </html>

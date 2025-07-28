@@ -40,11 +40,10 @@
 <!-- ================================================ Form Bean Definitions -->
 
     <form-beans>
-    <!-- sample form bean descriptor for an ActionForm
         <form-bean
-            name="inputForm"
-            type="app.InputForm"/>
-    end sample -->
+            name="OmikujiForm"
+            type="omikuji5.OmikujiForm"/>
+
 
     <!-- sample form bean descriptor for a DynaActionForm
         <form-bean
@@ -78,9 +77,9 @@
     <global-forwards>
         <!-- Default forward to "Welcome" action -->
         <!-- Demonstrates using index.jsp to forward -->
-        <forward
+     <!--   <forward
             name="welcome"
-            path="/Welcome.do"/>
+            path="/birthdayInput.do"/> -->
     </global-forwards>
 
 
@@ -89,34 +88,41 @@
     <action-mappings>
             <!-- Default "Welcome" action -->
             <!-- Forwards to Welcome.jsp -->
+        <action path="/birthdayInput" forward="/birthdayInput.jsp" />
+       
+            
         <action
-            path="/Welcome"
-            forward="/pages/Welcome.jsp"/>
+            path="/result" forward="/result.jsp"/>
+            
+		<action
+			path="/statics"
+			type="omikuji5.StatsAction">
+			<forward name="success" path="/resultRatio.jsp"/>
+		</action>
+		
+		<action
+			path="/list"
+			type="omikuji5.ListAction">
+			<forward name="success" path="/listPerBirthday.jsp"/>
+			</action>
+			
 
-    <!-- sample input and input submit actions
+    <!-- sample input and input submit actions -->
 
-        <action
-            path="/Input"
-            type="org.apache.struts.actions.ForwardAction"
-            parameter="/pages/Input.jsp"/>
 
-        <action
-            path="/InputSubmit"
-            type="app.InputAction"
-            name="inputForm"
-            scope="request"
-            validate="true"
-            input="/pages/Input.jsp"/>
 
             <action
-                path="/edit*"
-                type="app.Edit{1}Action"
-                name="inputForm"
+                path="/omikuji"
+                type="omikuji5.OmikujiAction"
+                name="OmikujiForm"
                 scope="request"
                 validate="true"
-                input="/pages/Edit{1}.jsp"/>
+                input="/birthdayInput.jsp">
+                <forward name="success" path="/result.jsp"/>
+                <forward name="failure" path="/birthdayInput.jsp"/>
+                </action>
 
-    end samples -->
+    
     </action-mappings>
 
 

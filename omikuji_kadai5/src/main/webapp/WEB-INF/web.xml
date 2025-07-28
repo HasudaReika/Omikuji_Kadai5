@@ -21,7 +21,7 @@
 	"http://java.sun.com/dtd/web-app_2_3.dtd">
 
 <web-app>
-  <display-name>Struts Blank Application</display-name>
+  <display-name>Omikuji Application</display-name>
   
   <!-- Standard Action Servlet Configuration -->
   <servlet>
@@ -44,7 +44,7 @@
 
   <!-- The Usual Welcome File List -->
   <welcome-file-list>
-    <welcome-file>index.jsp</welcome-file>
+    <welcome-file>birthdayInput.jsp</welcome-file>
   </welcome-file-list>
 
 </web-app>

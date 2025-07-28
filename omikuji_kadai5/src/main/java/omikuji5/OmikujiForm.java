@@ -1,8 +1,8 @@
 package omikuji5;
 
-import org.apache.struts.action.ActionForm;
+import org.apache.struts.validator.ValidatorForm;
 
-public class BirthdayActionForm extends ActionForm {
+public class OmikujiForm extends ValidatorForm {
 
 	private String birthday;
 

@@ -40,26 +40,22 @@
     <formset>
 
         <!-- An example form -->
-        <form name="logonForm">
+        <form name="OmikujiForm">
             <field
-                property="username"
-                depends="required">
-                    <arg key="logonForm.username"/>
-            </field>
-            <field
-                property="password"
-                depends="required,mask">
-                    <arg key="logonForm.password"/>
+                property="birthday"
+                depends="required,date">
+                    <arg key="field.date" name="date"/>
+                    <arg key="field.required" name="required"/>
                     <var>
-                        <var-name>mask</var-name>
-                        <var-value>^[0-9a-zA-Z]*$</var-value>
+                        <var-name>datePatternStrict</var-name>
+                        <var-value>yyyyMMdd</var-value>
                     </var>
             </field>
         </form>
 
     </formset>
 
-    <!-- An example formset for another locale -->
+    <!-- An example formset for another locale
     <formset language="fr">
 
         <constant>
@@ -67,7 +63,7 @@
             <constant-value>^[0-9a-zA-Z]*$</constant-value>
         </constant>
 
-        <!-- An example form -->
+        An example form 
         <form name="logonForm">
             <field
                 property="username"
@@ -85,6 +81,6 @@
             </field>
         </form>
 
-   </formset>
+   </formset> -->
 
 </form-validation>

@@ -5,9 +5,10 @@ import java.text.Normalizer;
 import java.text.Normalizer.Form;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeParseException;
 
-import jakarta.servlet.http.HttpServletRequest;
-import jakarta.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 import org.apache.struts.action.Action;
 import org.apache.struts.action.ActionForm;
@@ -16,8 +17,8 @@ import org.apache.struts.action.ActionMapping;
 
 public class OmikujiAction extends Action {
 
-	public ActionForward execute(ActionMapping mapping, ActionForm form,
-			HttpServletRequest request, HttpServletResponse response) {
+	public OmikujiAction() {
+
 		OmikujiDB omikujiDB = new OmikujiDB();
 		//DBにおみくじが格納されているかチェック
 		try {
@@ -28,9 +29,15 @@ public class OmikujiAction extends Action {
 		} catch (ClassNotFoundException | SQLException e) {
 			e.printStackTrace();
 		}
+	}
 
+	public ActionForward execute(ActionMapping mapping, ActionForm form,
+			HttpServletRequest request, HttpServletResponse response) {
+
+		OmikujiDB omikujiDB = new OmikujiDB();
+		
 		//アクションフォームから誕生日を受け取る
-		BirthdayActionForm birthdayActionForm = (BirthdayActionForm) form;
+		OmikujiForm birthdayActionForm = (OmikujiForm) form;
 		String birthday = birthdayActionForm.getBirthday();
 
 		//--------おみくじを取得する---------
@@ -39,15 +46,23 @@ public class OmikujiAction extends Action {
 		LocalDate today = LocalDate.now();
 		//birthdayをLocalDate型に変換
 		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyyMMdd");
+		//変換後の今日の日付
+				LocalDate bdDate = null;
 
 		//誕生日文字列を半角に変換
 		String birthdayString = Normalizer.normalize(birthday, Form.NFKC);
-		LocalDate bdDate = LocalDate.parse(birthdayString, formatter);
+		try {
+			bdDate = LocalDate.parse(birthdayString, formatter);
+		} catch (DateTimeParseException e) {
+			e.printStackTrace();
+			return mapping.findForward("failure");
+		}
 
 		//resultテーブルから取得するおみくじ変数
 		Omikuji omikuji = null;
 		//ランダムに新しいおみくじを取得する変数
 		Omikuji newOmikuji = null;
+		
 
 		//resultテーブルに占った日と誕生日が一致する結果が存在するかチェック、あればおみくじを取得
 		try {
@@ -84,7 +99,7 @@ public class OmikujiAction extends Action {
 		}
 
 		//処理結果をJSPに転送
-		return mapping.findForward("result");
+		return mapping.findForward("success");
 
 	}
 
