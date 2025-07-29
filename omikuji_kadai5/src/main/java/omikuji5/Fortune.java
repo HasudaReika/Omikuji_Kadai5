@@ -6,6 +6,6 @@ public interface Fortune {
 
 	String disp();
 
-	String DISP_STR = ResourceBundle.getBundle("omikuji4.fortune").getString("DISP_STR");
+	String DISP_STR = ResourceBundle.getBundle("omikuji5.fortune").getString("DISP_STR");
 
 }

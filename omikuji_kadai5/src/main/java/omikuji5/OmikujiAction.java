@@ -17,25 +17,25 @@ import org.apache.struts.action.ActionMapping;
 
 public class OmikujiAction extends Action {
 
-	public OmikujiAction() {
-
-		OmikujiDB omikujiDB = new OmikujiDB();
-		//DBにおみくじが格納されているかチェック
-		try {
-			if (omikujiDB.checkDB()) { //DBにおみくじが格納されていない場合
-				//おみくじをDBに格納する
-				omikujiDB.importOmikujiFromCsv();
-			}
-		} catch (ClassNotFoundException | SQLException e) {
-			e.printStackTrace();
-		}
-	}
+//	public OmikujiAction() {
+//
+//		OmikujiDB omikujiDB = new OmikujiDB();
+//		//DBにおみくじが格納されているかチェック
+//		try {
+//			if (omikujiDB.checkDB()) { //DBにおみくじが格納されていない場合
+//				//おみくじをDBに格納する
+//				omikujiDB.importOmikujiFromCsv();
+//			}
+//		} catch (ClassNotFoundException | SQLException e) {
+//			e.printStackTrace();
+//		}
+//	}
 
 	public ActionForward execute(ActionMapping mapping, ActionForm form,
 			HttpServletRequest request, HttpServletResponse response) {
 
 		OmikujiDB omikujiDB = new OmikujiDB();
-		
+
 		//アクションフォームから誕生日を受け取る
 		OmikujiForm birthdayActionForm = (OmikujiForm) form;
 		String birthday = birthdayActionForm.getBirthday();
@@ -47,7 +47,7 @@ public class OmikujiAction extends Action {
 		//birthdayをLocalDate型に変換
 		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyyMMdd");
 		//変換後の今日の日付
-				LocalDate bdDate = null;
+		LocalDate bdDate = null;
 
 		//誕生日文字列を半角に変換
 		String birthdayString = Normalizer.normalize(birthday, Form.NFKC);
@@ -62,13 +62,12 @@ public class OmikujiAction extends Action {
 		Omikuji omikuji = null;
 		//ランダムに新しいおみくじを取得する変数
 		Omikuji newOmikuji = null;
-		
 
 		//resultテーブルに占った日と誕生日が一致する結果が存在するかチェック、あればおみくじを取得
 		try {
 			omikuji = omikujiDB.getOmikujiFromResult(today, bdDate);
 		} catch (ClassNotFoundException | SQLException e) {
-			e.printStackTrace();
+			//なければスルー
 		}
 
 		if (omikuji != null) { //該当するおみくじがある場合

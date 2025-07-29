@@ -88,11 +88,12 @@
     <action-mappings>
             <!-- Default "Welcome" action -->
             <!-- Forwards to Welcome.jsp -->
-        <action path="/birthdayInput" forward="/birthdayInput.jsp" />
+            <action
+            path="/birthdayInput"
+            forward="/birthdayInput.jsp"/>
        
             
-        <action
-            path="/result" forward="/result.jsp"/>
+        <action path="/result" forward="/result.jsp"/>
             
 		<action
 			path="/statics"
@@ -128,7 +129,7 @@
 
 <!-- ======================================== Message Resources Definitions -->
 
-    <message-resources parameter="MessageResources" />
+    <message-resources parameter="java.MessageResources" />
 
 
 <!-- =============================================== Plug Ins Configuration -->
