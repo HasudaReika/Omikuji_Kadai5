@@ -11,6 +11,8 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Random;
 
 import db.DBManager;
@@ -373,25 +375,28 @@ public class OmikujiDB {
 	 * 過去半年のおみくじの結果を抽出
 	 * @param birthday　入力された誕生日文字列
 	 * @param omikuji　取得したおみくじ
+	 * @return 
 	 * @throws ClassNotFoundException DBドライバが見つからなかった場合
 	 * @throws SQLException DB操作中にエラーが発生した場合
 	 */
-	public void getResultPastSixMonths(LocalDate birthday)
+	public List<OmikujiResult> getResultPastSixMonths(LocalDate birthday)
 			throws ClassNotFoundException, SQLException {
 		Connection connection = null;
 		PreparedStatement preparedStatement = null;
+		ResultSet resultSet = null;
+		List<OmikujiResult> results = new ArrayList<OmikujiResult>();
 		try {
 			//DBに接続
 			connection = DBManager.getConnection();
 			//SQL文を準備
 			//入力された誕生日の過去半年の占い日とおみくじの結果を取得
-			String sql = "SELECT fortune_telling_date, fortune_name, negaigoto, akinai, gakumon"
-					+ "FROM result r INNER JOIN omikuji o"
-					+ "ON r.omikuji_code = o.omikuji_code"
-					+ "INNER JOIN fortune_master f"
-					+ "ON o.fortune_code = f.fortune_code"
-					+ "WHERE r.fortune_telling_date >= NOW() - INTERVAL '6 month'"
-					+ "birthday = ?";
+			String sql = "SELECT birthday, fortune_telling_date, fortune_name, negaigoto, akinai, gakumon "
+					+ "FROM result r INNER JOIN omikuji o "
+					+ "ON r.omikuji_code = o.omikuji_code "
+					+ "INNER JOIN fortune_master f "
+					+ "ON o.fortune_code = f.fortune_code "
+					+ "WHERE r.fortune_telling_date >= NOW() - INTERVAL '6 month' "
+					+ "AND birthday = ?";
 
 			//ステートメントを作成
 			preparedStatement = connection.prepareStatement(sql);
@@ -403,9 +408,18 @@ public class OmikujiDB {
 			preparedStatement.setDate(1, bdDate);
 
 			//SQLを実行
-			preparedStatement.executeUpdate();
-			
-			
+			resultSet = preparedStatement.executeQuery();
+
+			while (resultSet.next()) {
+				LocalDate date = resultSet.getDate("fortune_telling_date").toLocalDate();
+				String fortuneName = resultSet.getString("fortune_name");
+				String negaigoto = resultSet.getString("negaigoto");
+				String akinai = resultSet.getString("akinai");
+				String gakumon = resultSet.getString("gakumon");
+
+				OmikujiResult omikujiResult = new OmikujiResult(date, fortuneName, negaigoto, akinai, gakumon);
+				results.add(omikujiResult);
+			}
 
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -413,6 +427,8 @@ public class OmikujiDB {
 			//クローズ処理
 			DBManager.close(preparedStatement);
 			DBManager.close(connection);
+			DBManager.close(resultSet);
 		}
+		return results;
 	}
 }
