@@ -103,7 +103,9 @@
 		
 		<action
 			path="/list"
-			type="omikuji5.ListAction">
+			type="omikuji5.ListAction"
+			name="OmikujiForm"
+			scope="request">
 			<forward name="success" path="/listPerBirthday.jsp"/>
 			</action>
 			
