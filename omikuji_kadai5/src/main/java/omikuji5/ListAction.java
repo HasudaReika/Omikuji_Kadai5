@@ -6,6 +6,8 @@ import java.text.Normalizer.Form;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -46,6 +48,7 @@ public class ListAction extends Action {
 
 		//過去半年の結果を取得		
 		results = omikujiDB.getResultPastSixMonths(bdDate);
+		Collections.sort(results, Comparator.comparing(OmikujiResult::getFortuneTellingDate).reversed());
 		//リクエストスコープにリストをセット
 		request.setAttribute("results", results);
 		//リクエストスコープに誕生日をセット
