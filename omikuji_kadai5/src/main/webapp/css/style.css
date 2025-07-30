@@ -13,11 +13,11 @@ p{
 	font-family:'ヒラギノ丸ゴ Pro';
 }
 .container {
-	background-color: mistyrose;
+	background-color: rgb(253, 248, 218);;
 	display: inline-block;
 	margin: 0 auto 2em;
 	padding: 2em;
-	box-shadow: 0 0 6px 1px #faccbc, 0 0 6px 1px #faccbc inset;
+	box-shadow: 0 0 6px 1px rgb(216, 216, 187), 0 0 6px 1px rgb(206, 204, 171) inset;
 	border-radius: 30px;
 }
 .error {
