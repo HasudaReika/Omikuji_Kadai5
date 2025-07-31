@@ -25,3 +25,62 @@ table td {
 table tr:nth-child(odd) {
 	background-color: rgb(251, 251, 206);
 }
+
+
+.pie-chart-3 {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}
+
+.pie-chart-3>div {
+	width: 200px;
+	height: 200px;
+	margin: 0;
+	border-radius: 50%;
+	background-image: conic-gradient(#ff7575 14%, #f7bd59 14% 26%, #815ed4 26% 45%, rgb(164, 238, 113) 45% 65%, rgb(103, 238, 187) 65% 82%, rgb(196, 183, 238) 82% 100%);
+}
+
+.pie-chart-3 li {
+	display: flex;
+	list-style-type: none;
+	align-items: center;
+	font-size: .8em;
+}
+
+.pie-chart-3 li::before {
+	display: inline-block;
+	width: 1.2em;
+	height: .8em;
+	margin-right: 5px;
+	content: '';
+}
+
+.pie-chart-3 li:nth-child(1)::before {
+	background-color: #ff7575;
+}
+
+.pie-chart-3 li:nth-child(2)::before {
+	background-color: rgb(238, 160, 220);
+}
+
+.pie-chart-3 li:nth-child(3)::before {
+	background-color: rgb(164, 238, 113);
+}
+
+.pie-chart-3 li:nth-child(4)::before {
+	background-color: rgb(103, 238, 187);
+}
+
+.pie-chart-3 li:nth-child(5)::before {
+	background-color: rgb(196, 183, 238);
+}
+
+.pie-chart-3 li:nth-child(6)::before {
+	background-color: rgb(155, 103, 238);
+}
+
+.pie-chart-3 span {
+	margin-right: 10px;
+	font-weight: 600;
+}

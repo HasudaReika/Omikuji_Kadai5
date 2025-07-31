@@ -27,7 +27,7 @@
 		<input type="button"
 			onclick="location.href='http://localhost:8080/omikuji_kadai5/birthdayInput.jsp'"
 			value="続ける" /><br>
-		<html:link page="/statics.do">過去半年の統計を見る</html:link>
+		<html:link page="/stats.do">過去半年の統計を見る</html:link>
 		<html:link page="/list.do" paramId="birthday" paramName="OmikujiForm" paramProperty="birthday">
 		誕生日の過去半年の結果を見る</html:link>
 	</div>

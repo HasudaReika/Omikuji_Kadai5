@@ -12,7 +12,9 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Random;
 
 import db.DBManager;
@@ -334,32 +336,38 @@ public class OmikujiDB {
 	}
 
 	/**
-	 * 過去半年の運勢を抽出
-	 * @param omikuji　取得したおみくじ
+	 * 過去半年の運勢の割合を抽出
+	 * @return マップ<運勢,　数>
 	 * @throws ClassNotFoundException　DBドライバが見つからなかった場合
 	 * @throws SQLException　DB操作中にエラーが発生した場合
 	 */
-	public void getUnseiPastSixMonths(Omikuji omikuji) throws ClassNotFoundException, SQLException {
+	public Map<String, Integer> getUnseiPastSixMonths() throws ClassNotFoundException, SQLException {
 		Connection connection = null;
 		PreparedStatement preparedStatement = null;
+		ResultSet resultSet = null;
+		Map<String, Integer> resultPastSixMonths = new HashMap<String, Integer>();
 
 		try {
 			//DBに接続
 			connection = DBManager.getConnection();
 			//SQL文を準備
 			//過去半年の運勢を取得
-			String sql = "SELECT fortune_name"
-					+ "FROM result r INNER JOIN omikuji o"
-					+ "ON r.omikuji_code = o.omikuji_code"
-					+ "INNER JOIN fortune_master f"
-					+ "ON o.fortune_code = f. fortune_code"
-					+ "WHERE r.fortune_telling_date >= NOW() - INTERVAL '6 month'";
+			String sqlPast6months = "SELECT fortune_name, count(*) "
+					+ "FROM result r INNER JOIN omikuji o "
+					+ "ON r.omikuji_code = o.omikuji_code "
+					+ "INNER JOIN fortune_master f "
+					+ "ON o.fortune_code = f. fortune_code "
+					+ "WHERE r.fortune_telling_date >= NOW() - INTERVAL '6 month' "
+					+ "GROUP BY f.fortune_code";
 
 			//ステートメントを作成
-			preparedStatement = connection.prepareStatement(sql);
+			preparedStatement = connection.prepareStatement(sqlPast6months);
 
 			//SQLを実行
-			preparedStatement.executeUpdate();
+			resultSet = preparedStatement.executeQuery();
+			while (resultSet.next()) {
+				resultPastSixMonths.put(resultSet.getString("fortune_name"), resultSet.getInt("count"));
+			}
 
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -367,7 +375,55 @@ public class OmikujiDB {
 			//クローズ処理
 			DBManager.close(preparedStatement);
 			DBManager.close(connection);
+			DBManager.close(resultSet);
 		}
+		return resultPastSixMonths;
+
+	}
+
+	/**
+	 * 本日の運勢の割合を抽出
+	 * @return マップ<運勢,　数>
+	 * @throws ClassNotFoundException　DBドライバが見つからなかった場合
+	 * @throws SQLException　DB操作中にエラーが発生した場合
+	 */
+	public Map<String, Integer> getUnseiToday() throws ClassNotFoundException, SQLException {
+		Connection connection = null;
+		PreparedStatement preparedStatement = null;
+		ResultSet resultSet = null;
+		Map<String, Integer> resultToday = new HashMap<String, Integer>();
+
+		try {
+			//DBに接続
+			connection = DBManager.getConnection();
+			//SQL文を準備
+			//今日の運勢を取得
+			String sqlToday = "SELECT fortune_name, count(*) "
+					+ "FROM result r INNER JOIN omikuji o "
+					+ "ON r.omikuji_code = o.omikuji_code "
+					+ "INNER JOIN fortune_master f "
+					+ "ON o.fortune_code = f.fortune_code "
+					+ "WHERE r.fortune_telling_date = current_date "
+					+ "GROUP BY f.fortune_code";
+
+			//ステートメントを作成
+			preparedStatement = connection.prepareStatement(sqlToday);
+			//SQLを実行
+			resultSet = preparedStatement.executeQuery();
+			while (resultSet.next()) {
+				resultToday.put(resultSet.getString("fortune_name"), resultSet.getInt("count"));
+			}
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			//クローズ処理
+			DBManager.close(preparedStatement);
+			DBManager.close(connection);
+			DBManager.close(resultSet);
+		}
+
+		return resultToday;
 
 	}
 

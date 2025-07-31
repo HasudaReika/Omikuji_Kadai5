@@ -16,7 +16,7 @@
 	<h1>おみくじ占い</h1>
 	<html:form action="/omikuji">
 	
-	<html:errors/>
+	<div class="error"><html:errors/></div>
 		<p>
 			誕生日を入力してください 例:20011009<br>
 			 <html:text property="birthday"/><br>

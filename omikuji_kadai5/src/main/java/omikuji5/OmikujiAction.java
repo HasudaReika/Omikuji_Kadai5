@@ -17,20 +17,6 @@ import org.apache.struts.action.ActionMapping;
 
 public class OmikujiAction extends Action {
 
-//	public OmikujiAction() {
-//
-//		OmikujiDB omikujiDB = new OmikujiDB();
-//		//DBにおみくじが格納されているかチェック
-//		try {
-//			if (omikujiDB.checkDB()) { //DBにおみくじが格納されていない場合
-//				//おみくじをDBに格納する
-//				omikujiDB.importOmikujiFromCsv();
-//			}
-//		} catch (ClassNotFoundException | SQLException e) {
-//			e.printStackTrace();
-//		}
-//	}
-
 	public ActionForward execute(ActionMapping mapping, ActionForm form,
 			HttpServletRequest request, HttpServletResponse response) {
 
@@ -46,7 +32,7 @@ public class OmikujiAction extends Action {
 		LocalDate today = LocalDate.now();
 		//birthdayをLocalDate型に変換
 		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyyMMdd");
-		//変換後の今日の日付
+		//変換後の誕生日
 		LocalDate bdDate = null;
 
 		//誕生日文字列を半角に変換

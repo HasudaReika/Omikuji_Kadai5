@@ -22,6 +22,9 @@
 
 <web-app>
   <display-name>Omikuji Application</display-name>
+  <listener>
+        <listener-class>omikuji5.StartupListener</listener-class>
+    </listener>
   
   <!-- Standard Action Servlet Configuration -->
   <servlet>

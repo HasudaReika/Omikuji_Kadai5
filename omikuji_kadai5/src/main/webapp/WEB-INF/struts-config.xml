@@ -96,7 +96,7 @@
         <action path="/result" forward="/result.jsp"/>
             
 		<action
-			path="/statics"
+			path="/stats"
 			type="omikuji5.StatsAction">
 			<forward name="success" path="/resultRatio.jsp"/>
 		</action>
@@ -131,7 +131,7 @@
 
 <!-- ======================================== Message Resources Definitions -->
 
-    <message-resources parameter="MessageResources" />
+    <message-resources parameter="MessageResources"/>
 
 
 <!-- =============================================== Plug Ins Configuration -->
