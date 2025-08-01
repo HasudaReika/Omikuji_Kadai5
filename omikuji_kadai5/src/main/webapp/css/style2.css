@@ -1,5 +1,13 @@
 @charset "UTF-8";
 
+left{
+	text-align:left;
+}
+
+right{
+	text-align: right;
+}
+
 h1{
 	font-family: 'Hannotate SC';
 	-webkit-text-stroke: 7px white;

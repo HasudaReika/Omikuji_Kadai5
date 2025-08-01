@@ -1,8 +1,6 @@
 package omikuji5;
 
 import java.sql.SQLException;
-import java.text.Normalizer;
-import java.text.Normalizer.Form;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
@@ -35,10 +33,10 @@ public class OmikujiAction extends Action {
 		//変換後の誕生日
 		LocalDate bdDate = null;
 
-		//誕生日文字列を半角に変換
-		String birthdayString = Normalizer.normalize(birthday, Form.NFKC);
+//		//誕生日文字列を半角に変換
+//		String birthdayString = Normalizer.normalize(birthday, Form.NFKC);
 		try {
-			bdDate = LocalDate.parse(birthdayString, formatter);
+			bdDate = LocalDate.parse(birthday, formatter);
 		} catch (DateTimeParseException e) {
 			e.printStackTrace();
 			return mapping.findForward("failure");

@@ -1,7 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@page isELIgnored="false" %>
-<%@ taglib uri="http://struts.apache.org/tags-html" prefix="html" %>
+<%@taglib uri="http://struts.apache.org/tags-html" prefix="html" %>
 
 <!DOCTYPE html>
 <html>
@@ -14,7 +14,7 @@
 <body>
 	<div class="container">
 	<h1>おみくじ占い</h1>
-	<html:form action="/omikuji">
+	<html:form action="/omikuji" method="post">
 	
 	<div class="error"><html:errors/></div>
 		<p>
