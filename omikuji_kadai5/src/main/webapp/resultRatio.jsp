@@ -16,12 +16,10 @@
 	<h1>過去半年・本日の運勢の割合</h1>
 	<div class="field">
 		<div>
-			<h2>過去半年の運勢</h2>
 			<canvas id="pastSixMonths" width="400" height="400"></canvas>
 		</div>
 
 		<div>
-			<h2>本日の運勢</h2>
 			<canvas id="today" width="400" height="400"></canvas>
 		</div>
 	</div>
@@ -45,12 +43,12 @@ const today = {
 
 
     const colors = [
-      "#BB5179",
-      "#FAFF67",
-      "#58A27C",
-      "#3C00FF",
-      "#FBFF23",
-      "#52B43A"
+      "#8ECDDD",
+      "#F0A58A",
+      "#C9A6FF",
+      "#D2F3C0",
+      "#FFC6A5",
+      "#FFB2C8"
     ];
 
 function createChart(ctx, chartLabels, chartData, title) {

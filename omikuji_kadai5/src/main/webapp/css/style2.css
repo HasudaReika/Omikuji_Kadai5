@@ -1,6 +1,14 @@
 @charset "UTF-8";
 
-h1 {
+h1{
+	font-family: 'Hannotate SC';
+	-webkit-text-stroke: 7px white;
+	paint-order: stroke;
+	line-height: 1.4em;
+	padding: 5px;
+}
+
+h1{
 	font-family: 'Hannotate SC';
 	-webkit-text-stroke: 7px white;
 	paint-order: stroke;
