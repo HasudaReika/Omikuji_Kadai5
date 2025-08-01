@@ -14,6 +14,7 @@ public class OmikujiForm extends ValidatorForm {
 		this.birthday = birthday;
 	}
 	
+//	@Override
 //	public ActionErrors validate(ActionMapping mapping, HttpServletRequest request) {
 //		String hwBirthday = Normalizer.normalize(birthday, Form.NFKC);
 //		this.birthday = hwBirthday;
