@@ -356,12 +356,22 @@ public class OmikujiDB {
                     + "FROM fortune_master f "
                     + "LEFT JOIN omikuji o ON f.fortune_code = o.fortune_code "
                     + "LEFT JOIN result r ON o.omikuji_code = r.omikuji_code "
-                    + "AND r.fortune_telling_date >= NOW() - INTERVAL '6 month' "
+                    + "AND r.fortune_telling_date >= ? "
                     + "GROUP BY f.fortune_code "
                     + "ORDER BY f.fortune_code";
 
 			//ステートメントを作成
 			preparedStatement = connection.prepareStatement(sqlPast6months);
+			
+			//今日の日付
+			LocalDate today = LocalDate.now();
+			//今日の日付から６ヶ月引いた日付
+			LocalDate sixMonthsAgo = today.minusMonths(6);
+			//LocalDate型からsqlDate型に変換
+			Date sixMonths = Date.valueOf(sixMonthsAgo);
+			
+			//入力値をバインド
+			preparedStatement.setDate(1, sixMonths);
 
 			//SQLを実行
 			resultSet = preparedStatement.executeQuery();
@@ -451,7 +461,7 @@ public class OmikujiDB {
 					+ "ON r.omikuji_code = o.omikuji_code "
 					+ "INNER JOIN fortune_master f "
 					+ "ON o.fortune_code = f.fortune_code "
-					+ "WHERE r.fortune_telling_date >= NOW() - INTERVAL '6 month' "
+					+ "WHERE r.fortune_telling_date >= ? "
 					+ "AND birthday = ?";
 
 			//ステートメントを作成
@@ -459,9 +469,17 @@ public class OmikujiDB {
 
 			//LocalDate型からsqlDate型に変換
 			Date bdDate = Date.valueOf(birthday);
+			
+			//今日の日付
+			LocalDate today = LocalDate.now();
+			//今日の日付から６ヶ月引いた日付
+			LocalDate sixMonthsAgo = today.minusMonths(6);
+			//LocalDate型からsqlDate型に変換
+			Date sixMonths = Date.valueOf(sixMonthsAgo);
 
 			//入力値をバインド
-			preparedStatement.setDate(1, bdDate);
+			preparedStatement.setDate(1, sixMonths);
+			preparedStatement.setDate(2, bdDate);
 
 			//SQLを実行
 			resultSet = preparedStatement.executeQuery();
