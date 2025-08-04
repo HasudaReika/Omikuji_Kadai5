@@ -2,7 +2,7 @@
 	pageEncoding="UTF-8"%>
 <%@taglib uri="http://struts.apache.org/tags-html" prefix="html"%>
 <%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
-<%@taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
+<%@taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
 <%@page isELIgnored="false"%>
 
 <!DOCTYPE html>
@@ -18,16 +18,20 @@
 	<div class="field">
 		<div>
 			<canvas id="pastSixMonths" width="400" height="400"></canvas>
-			<p><c:forEach var="entry" items="${resultPastSixMonths}">
-				<li>${entry.key}:${entry.value}%</li>
-			</c:forEach></p>
+			<p>
+				<c:forEach var="entry" items="${resultPastSixMonths}">
+					<ul><li>${entry.key}:${entry.value}%</li></ul>
+				</c:forEach>
+			</p>
 		</div>
 
 		<div>
 			<canvas id="today" width="400" height="400"></canvas>
-			<p><c:forEach var="entry" items="${resultToday}">
-				<li>${entry.key}:${entry.value}%</li>
-			</c:forEach></p>
+			<p>
+				<c:forEach var="entry" items="${resultToday}">
+					<ul><li>${entry.key}:${entry.value}%</li></ul>
+				</c:forEach>
+			</p>
 		</div>
 	</div>
 
@@ -39,18 +43,14 @@ const pastSixMonths={
 		<c:forEach var="entry" items="${resultPastSixMonths}" varStatus="status">
 		'${entry.key}': ${entry.value}
         <c:if test="${!status.last}">,</c:if>
-        <c:choose>
-        <c:when test="${entry.value==0.0}">0%</c:when>
-        </c:choose>
+
     </c:forEach>
 };
 const today = {
         <c:forEach var="entry" items="${resultToday}" varStatus="status">
             '${entry.key}': ${entry.value}
             <c:if test="${!status.last}">,</c:if>
-            <c:choose>
-            <c:when test="${entry.value==0.0}">0%</c:when>
-            </c:choose>
+
         </c:forEach>
     };
 
@@ -78,9 +78,11 @@ function createChart(ctx, chartLabels, chartData, title) {
             title: {
                 display: true,
                 text: title
+                
             }
         }
     });
+    	
 }
 
 const pastSixMonthsCtx = document.getElementById("pastSixMonths");

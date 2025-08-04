@@ -4,6 +4,7 @@ package omikuji5;
  * 過去半年と本日の運勢の割合を表示
  */
 import java.sql.SQLException;
+import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.stream.Collectors;
 
@@ -29,15 +30,28 @@ public class StatsAction extends Action {
 
 		//過去半年の格運勢の個数を取得
 		double total = resultPastSixMonths.values().stream().mapToDouble(Integer::doubleValue).sum();
-		//それぞれの割合を計算し、新しいマップに格納
+		//それぞれの割合を計算し、大きい順にソート、新しいマップに格納
 		Map<String, Double> ratioPSM = resultPastSixMonths.entrySet().stream()
-				.collect(Collectors.toMap(Map.Entry::getKey, entry -> (entry.getValue() / total) * 100));
+				.sorted(Map.Entry.<String, Integer> comparingByValue().reversed())
+				.collect(Collectors.toMap(Map.Entry::getKey, entry -> {
+					double ratio = Math.round((entry.getValue() / total) * 10000.0) / 100.0;
+					return ratio;
+				},
+						(e1, e2) -> e1,
+						LinkedHashMap::new));
 
 		//本日の格運勢の個数を取得
 		double total2 = resultToday.values().stream().mapToDouble(Integer::doubleValue).sum();
-		//それぞれの割合を計算し、新しいマップに格納
+		//それぞれの割合を計算し、大きい順にソート、新しいマップに格納
 		Map<String, Double> ratioToday = resultToday.entrySet().stream()
-				.collect(Collectors.toMap(Map.Entry::getKey, entry -> (entry.getValue() / total2) * 100));
+				.sorted(Map.Entry.<String, Integer> comparingByValue().reversed())
+				.collect(Collectors.toMap(
+						Map.Entry::getKey, entry -> {
+							double ratio = Math.round((entry.getValue() / total2) * 10000.0) / 100.0;
+							return ratio;
+						},
+						(e1, e2) -> e1,
+						LinkedHashMap::new));
 
 		//リクエストスコープにマップをセット
 		request.setAttribute("resultPastSixMonths", ratioPSM);

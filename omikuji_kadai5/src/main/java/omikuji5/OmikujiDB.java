@@ -352,13 +352,13 @@ public class OmikujiDB {
 			connection = DBManager.getConnection();
 			//SQL文を準備
 			//過去半年の運勢を取得
-			String sqlPast6months = "SELECT fortune_name, count(*) "
-					+ "FROM result r INNER JOIN omikuji o "
-					+ "ON r.omikuji_code = o.omikuji_code "
-					+ "INNER JOIN fortune_master f "
-					+ "ON o.fortune_code = f. fortune_code "
-					+ "WHERE r.fortune_telling_date >= NOW() - INTERVAL '6 month' "
-					+ "GROUP BY f.fortune_code";
+			String sqlPast6months ="SELECT f.fortune_name, COUNT(r.omikuji_code) AS count "
+                    + "FROM fortune_master f "
+                    + "LEFT JOIN omikuji o ON f.fortune_code = o.fortune_code "
+                    + "LEFT JOIN result r ON o.omikuji_code = r.omikuji_code "
+                    + "AND r.fortune_telling_date >= NOW() - INTERVAL '6 month' "
+                    + "GROUP BY f.fortune_code "
+                    + "ORDER BY f.fortune_code";
 
 			//ステートメントを作成
 			preparedStatement = connection.prepareStatement(sqlPast6months);
@@ -398,13 +398,13 @@ public class OmikujiDB {
 			connection = DBManager.getConnection();
 			//SQL文を準備
 			//今日の運勢を取得
-			String sqlToday = "SELECT fortune_name, count(*) "
-					+ "FROM result r INNER JOIN omikuji o "
-					+ "ON r.omikuji_code = o.omikuji_code "
-					+ "INNER JOIN fortune_master f "
-					+ "ON o.fortune_code = f.fortune_code "
-					+ "WHERE r.fortune_telling_date = current_date "
-					+ "GROUP BY f.fortune_code";
+			String sqlToday = "SELECT f.fortune_name, COUNT(r.omikuji_code) AS count "
+					+ "FROM fortune_master f "
+					+ "LEFT JOIN omikuji o ON f.fortune_code = o.fortune_code "
+					+ "LEFT JOIN result r ON o.omikuji_code = r.omikuji_code "
+					+ "AND r.fortune_telling_date = CURRENT_DATE "
+					+ "GROUP BY f.fortune_code "
+					+ "ORDER BY f.fortune_code";
 
 			//ステートメントを作成
 			preparedStatement = connection.prepareStatement(sqlToday);
