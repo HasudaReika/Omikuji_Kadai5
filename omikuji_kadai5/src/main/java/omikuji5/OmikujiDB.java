@@ -12,6 +12,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -363,12 +364,16 @@ public class OmikujiDB {
 			//ステートメントを作成
 			preparedStatement = connection.prepareStatement(sqlPast6months);
 			
+			//６ヶ月前の日付を入れる変数
+			Calendar sixMonthsAgo = null;
 			//今日の日付
-			LocalDate today = LocalDate.now();
+			Calendar today = Calendar.getInstance();
 			//今日の日付から６ヶ月引いた日付
-			LocalDate sixMonthsAgo = today.minusMonths(6);
-			//LocalDate型からsqlDate型に変換
-			Date sixMonths = Date.valueOf(sixMonthsAgo);
+			today.add(Calendar.MONTH, -6);
+			//sixMonthAgoに計算後の日付を代入
+			sixMonthsAgo = today;
+			//Calender型からsqlDate型に変換
+			Date sixMonths = new Date(sixMonthsAgo.getTime().getTime());
 			
 			//入力値をバインド
 			preparedStatement.setDate(1, sixMonths);
@@ -470,12 +475,16 @@ public class OmikujiDB {
 			//LocalDate型からsqlDate型に変換
 			Date bdDate = Date.valueOf(birthday);
 			
+			//６ヶ月前の日付を入れる変数
+			Calendar sixMonthsAgo = null;
 			//今日の日付
-			LocalDate today = LocalDate.now();
+			Calendar today = Calendar.getInstance();
 			//今日の日付から６ヶ月引いた日付
-			LocalDate sixMonthsAgo = today.minusMonths(6);
-			//LocalDate型からsqlDate型に変換
-			Date sixMonths = Date.valueOf(sixMonthsAgo);
+			today.add(Calendar.MONTH, -6);
+			//sixMonthAgoに計算後の日付を代入
+			sixMonthsAgo = today;
+			//Calender型からsqlDate型に変換
+			Date sixMonths = new Date(sixMonthsAgo.getTime().getTime());
 
 			//入力値をバインド
 			preparedStatement.setDate(1, sixMonths);
